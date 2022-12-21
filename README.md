@@ -8,7 +8,6 @@ With this extension, you can quickly generate a skeleton for a PHP class just by
 
 ## Planned Features
 
-- Generate PSR-4 namespace
 - Generate skeleton of other types of PHP files [interface, trait, enum, value object]
 
 ## Requirements

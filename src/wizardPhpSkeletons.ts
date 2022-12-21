@@ -1,29 +1,55 @@
 import * as vscode from 'vscode';
-import { getPathFile, showFile, writeFile } from './utils/files';
+import * as path from 'path';
+import { showFile, writeFile, generateNamespace } from './utils/files';
 
 export async function wizardGeneratePhpSkeleton() {
-
+    const folder = await wizardSelectFolder();
     const type = await wizardFileType();
     const fileName = await wizardFileName(type);
-    const classSkeleton = generatePhpSkeleton(type,fileName);
 
-    const pathFile = getPathFile(fileName);
+    const namespace = generateNamespace(folder,fileName);
+
+    const classSkeleton = generatePhpSkeleton(type,fileName,namespace);
+
+    const pathFile =  vscode.Uri.parse(`file:` + path.join(`${folder.fsPath}`, `${fileName}.php`));
 
     await writeFile(pathFile, classSkeleton);
     
     showFile(pathFile);
 }
 
+async function wizardSelectFolder(): Promise<vscode.Uri>
+{
+    if (!vscode.workspace) {
+        throw new Error("Working folder not found, open a folder an try again");
+    }
+    const folder = await vscode.window.showOpenDialog(
+        {
+            canSelectFiles: false,
+            canSelectFolders: true,
+            canSelectMany: false,
+            openLabel: "Select folder where new class should be placed"
+        }
+    );
+
+    if (!folder) {
+        throw new Error("Select the folder where you want create a PHP file");
+    }
+
+    return folder[0];
+}
+
 async function wizardFileType(): Promise<string>
 {
+    const acceptedTypes = [
+        "class",
+        // "interface",
+        // "trait",
+        // "enum",
+        // "value object (immutable class)"
+    ];
     const type = await vscode.window.showQuickPick(
-        [
-            "class",
-            // "interface",
-            // "trait",
-            // "enum",
-            // "value object (immutable class)"
-        ],
+        acceptedTypes,
         {
             placeHolder: "select the type of file you want to create"
         }
@@ -47,18 +73,18 @@ async function wizardFileName(type: string): Promise<string>
     return className;
 }
 
-function generatePhpSkeleton(type: string,className: string): string
+function generatePhpSkeleton(type: string,className: string, namespace: string): string
 {
     if(type === "class"){
-        return generatePhpClassSkeleton(className);
+        return generatePhpClassSkeleton(className, namespace);
     }
     return "## TODO";
 }
 
-function generatePhpClassSkeleton(className: string): string {
+function generatePhpClassSkeleton(className: string, namespace: string): string {
     return `<?php
 
-## TODO: generate namespace
+namespace ${namespace};
 	
 class ${className}
 {

@@ -9,3 +9,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Added 
 - Initial release
 - Command for create a basic skeleton of PHP class
+- Add namespace PSR4 in skeleton
