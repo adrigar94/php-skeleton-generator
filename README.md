@@ -6,6 +6,10 @@ With this extension, you can quickly generate a skeleton for a PHP class just by
 
 - Run `generate-php-class` command from the command palette to generate a skeleton for a PHP class
 
+## Planned Features
+
+- Generate PSR-4 namespace
+
 ## Requirements
 
 - [Visual Studio Code](https://code.visualstudio.com/)
@@ -16,6 +20,7 @@ With this extension, you can quickly generate a skeleton for a PHP class just by
 2. Type `generate-php-class` and press Enter
 3. Enter the name of your class and press Enter
 4. The skeleton for the PHP class will be generated
+
 
 ## Credits
 
