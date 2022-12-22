@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to the "php-class-generator" extension will be documented in this file.
+All notable changes to the "php-skeleton-generator" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
@@ -10,3 +10,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - Initial release
 - Command for create a basic skeleton of PHP class
 - Add namespace PSR4 in skeleton
+- Change name to php-skeleton-generator

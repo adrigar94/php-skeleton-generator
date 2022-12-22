@@ -1,5 +1,5 @@
 {
-  "name": "php-class-generator",
+  "name": "php-skeleton-generator",
   "displayName": "PHP Class Generator",
   "description": "Generate PHP classes",
   "version": "0.0.1",
@@ -10,13 +10,13 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:php-class-generator.generate-php-class"
+    "onCommand:php-skeleton-generator.php-skeleton-generate"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "php-class-generator.generate-php-class",
+        "command": "php-skeleton-generator.php-skeleton-generate",
         "title": "Generate PHP Class"
       }
     ]

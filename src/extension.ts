@@ -6,8 +6,8 @@ import { wizardGeneratePhpSkeleton } from './wizardPhpSkeletons';
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-    console.log('Congratulations, your extension "php-class-generator" is now active!');
-    context.subscriptions.push(vscode.commands.registerCommand('php-class-generator.generate-php-class', wizardGeneratePhpSkeleton));
+    console.log('Congratulations, your extension "php-skeleton-generator" is now active!');
+    context.subscriptions.push(vscode.commands.registerCommand('php-skeleton-generator.php-skeleton-generate', wizardGeneratePhpSkeleton));
 }
 
 // This method is called when your extension is deactivated

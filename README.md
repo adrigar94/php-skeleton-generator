@@ -1,14 +1,14 @@
-# php-class-generator Extension for Visual Studio Code
+# php-skeleton-generator Extension for Visual Studio Code
 
-With this extension, you can quickly generate a skeleton for a PHP class just by running a command. This can save you time when starting a new project or writing code, as you don't have to manually type out the basic structure of a PHP class every time.
+Looking for an easy and quick way to generate PHP code skeletons? Check out our "PHP Skeleton Generator" extension! With just a few clicks, you can create PHP classes, interfaces, traits, and enums with all the properties and methods you need. Our assistant guides you through the process, asking you for the options you need and generating the code for you. Save time and effort when creating your PHP projects with "PHP Skeleton Generator"!
 
 ## Features
 
-- Run `generate-php-class` command from the command palette to generate a skeleton for a PHP class
+- Run `php-skeleton-generate` command from the command palette to generate a skeleton for a PHP class
 
 ## Planned Features
 
-- Generate skeleton of other types of PHP files [interface, trait, enum, value object]
+- Generate skeleton of other types of PHP files [interface, trait, enum]
 
 ## Requirements
 
@@ -17,7 +17,7 @@ With this extension, you can quickly generate a skeleton for a PHP class just by
 ## Usage
 
 1. Press `Ctrl+Shift+P` to open the command palette
-2. Type `generate-php-class` and press Enter
+2. Type `php-skeleton-generate` and press Enter
 3. Enter the name of your class and press Enter
 4. The skeleton for the PHP class will be generated
 
