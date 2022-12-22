@@ -9,6 +9,7 @@ Looking for an easy and quick way to generate PHP code skeletons? Check out our 
 ## Planned Features
 
 - Generate skeleton of other types of PHP files [interface, trait, enum]
+- Method equal() in Skeleton Class
 
 ## Requirements
 
