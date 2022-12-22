@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import { showFile, writeFile, generateNamespace } from './utils/files';
+import { capitalize, capitalizeAndTrim } from './utils/string';
 
 export async function wizardGeneratePhpSkeleton() {
     const folder = await wizardSelectFolder();
@@ -41,7 +42,7 @@ async function wizardSelectFolder(): Promise<vscode.Uri> {
 async function wizardFileType(): Promise<string> {
     const acceptedTypes = [
         "class",
-        // "interface",
+        "interface",
         // "trait",
         // "enum",
         // "value object (immutable class)"
@@ -60,31 +61,33 @@ async function wizardFileType(): Promise<string> {
 }
 
 async function wizardFileName(type: string): Promise<string> {
-    let className = await vscode.window.showInputBox({
+    let fileName = await vscode.window.showInputBox({
         placeHolder: `Name of ${type}`
     });
-    if (!className) {
-        throw new Error("It is required to provide a name for the class");
+    if (!fileName) {
+        throw new Error("It is required to provide a name for the ${type}");
     }
-    className = capitalizeAndTrim(className);
-    return className;
+    fileName = capitalizeAndTrim(fileName);
+    return fileName;
 }
 
-async function generatePhpSkeleton(type: string, className: string, namespace: string): Promise<string> {
+async function generatePhpSkeleton(type: string, fileName: string, namespace: string): Promise<string> {
     if (type === "class") {
-        return await generatePhpClassSkeleton(className, namespace);
+        return await generatePhpClassSkeleton(fileName, namespace);
+    }
+    if (type === "interface") {
+        return await generatePhpInterfaceSkeleton(fileName, namespace);
     }
     return "## TODO";
 }
 
 async function generatePhpClassSkeleton(className: string, namespace: string): Promise<string> {
-    const properties = await wizardProperties();
+    const properties = await wizardClassProperties();
 
     let declareProperties = [];
     for (const property of properties) {
         declareProperties.push(`${property.visibility} ${property.type} $${property.name}`);
     }
-    const declarePropertiesAsString = declareProperties.join(", ");
 
     let gettersAndSetters = "";
     for (const property of properties) {
@@ -100,7 +103,7 @@ async function generatePhpClassSkeleton(className: string, namespace: string): P
     }`;
     }
 
-    let skeleton = `<?php
+    const skeleton = `<?php
 
 declare(strict_types=1);
 
@@ -108,7 +111,7 @@ namespace ${namespace};
 
 class ${className}
 {
-    public function __construct(${declarePropertiesAsString})
+    public function __construct(${declareProperties.join(", ")})
     {
     }
 
@@ -118,12 +121,7 @@ ${gettersAndSetters}
     return skeleton;
 }
 
-function capitalize(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-
-async function wizardProperties(): Promise<Array<{ name: string, visibility: string, type: string }>> {
+async function wizardClassProperties(): Promise<Array<{ name: string, visibility: string, type: string }>> {
     let properties = [];
 
     let input = await vscode.window.showInputBox({
@@ -139,7 +137,7 @@ async function wizardProperties(): Promise<Array<{ name: string, visibility: str
         let visibility = await vscode.window.showQuickPick(
             acceptedVisibilities,
             {
-                placeHolder: "Select the visibility of the property"
+                placeHolder: `Select the visibility of the "${input}" property`
             }
         );
         if (!visibility) {
@@ -147,28 +145,85 @@ async function wizardProperties(): Promise<Array<{ name: string, visibility: str
         }
 
         let type = await vscode.window.showInputBox({
-            prompt: "Enter the type of the property (int, string, etc.)"
+            prompt: `Enter the type of the "${input}" property (int, string, etc.)`
         });
         if (!type) {
             type = "string";
         }
 
-        properties.push({ name: input, visibility: visibility ?? '', type: type ?? '' });
+        properties.push({ name: input, visibility: visibility || '', type: type || '' });
 
         input = await vscode.window.showInputBox({
-            prompt: "Enter a property name (press 'Cancel' or leave empty to finish)"
+            prompt: "Enter another property name (press 'Cancel' or leave empty to finish)"
         });
     }
 
     return properties;
 }
 
+async function generatePhpInterfaceSkeleton(interfaceName: string, namespace: string): Promise<string> {
 
-function capitalizeAndTrim(str: string): string {
-    const words = str.split(' ');
-    let result = "";
-    for (let word of words) {
-        result += word.charAt(0).toUpperCase() + word.slice(1);
+    const methods = await wizardInterfaceMethods();
+
+    let declareMethods = [];
+    for (const method of methods) {
+        let paramsMethod: Array<string> = [];
+        for (const param of method.params) {
+            paramsMethod.push(`${param.type} $${param.name}`);
+        }
+        declareMethods.push(`    public function ${method.name}(${paramsMethod.join(', ')}): ${method.returnType};`);
     }
-    return result;
+
+    const skeleton =
+        `<?php
+
+declare(strict_types=1);
+
+namespace ${namespace};
+
+interface ${interfaceName}
+{
+${declareMethods.join("\n\n")}
+}
+`;
+
+    return skeleton;
+}
+
+async function wizardInterfaceMethods(): Promise<Array<{ name: string, returnType: string, params: Array<{ type: string, name: string }> }>> {
+    let methods = [];
+
+    let methodName = await vscode.window.showInputBox({
+        prompt: "Enter a method name (press 'Cancel' or leave empty to finish)"
+    });
+
+    while (methodName) {
+        let params: Array<{ type: string, name: string }> = [];
+
+        const returnType = await vscode.window.showInputBox({
+            prompt: `Enter a return type of "${methodName}" method (default is void)`
+        });
+
+        let paramName = await vscode.window.showInputBox({
+            prompt: `Enter a parameter name of "${methodName}" method (press 'Cancel' or leave empty to finish)`
+        });
+
+        while (paramName) {
+            const paramType = await vscode.window.showInputBox({
+                prompt: `Enter a type of "${paramName}" parameter (int, string, etc.)`
+            });
+            params.push({ type: paramType || '', name: paramName });
+            paramName = await vscode.window.showInputBox({
+                prompt: `Enter another parameter name of "${methodName}" method (press 'Cancel' or leave empty to finish)`
+            });
+        }
+
+        methods.push({ name: methodName, returnType: returnType || 'void', params: params });
+
+        methodName = await vscode.window.showInputBox({
+            prompt: "Enter another method name (press 'Cancel' or leave empty to finish)"
+        });
+    }
+
+    return methods;
 }
