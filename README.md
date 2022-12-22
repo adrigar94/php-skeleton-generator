@@ -1,6 +1,6 @@
 # php-skeleton-generator Extension for Visual Studio Code
 
-Looking for an easy and quick way to generate PHP code skeletons? Check out our "PHP Skeleton Generator" extension! With just a few clicks, you can create PHP classes, interfaces, traits, and enums with all the properties and methods you need. Our assistant guides you through the process, asking you for the options you need and generating the code for you. Save time and effort when creating your PHP projects with "PHP Skeleton Generator"!
+Looking for an easy and quick way to generate PHP code skeletons? Check out our "PHP Skeleton Generator" extension! With just a few steps, you can create PHP classes, interfaces, traits, and enums with all the properties and methods you need. Our assistant guides you through the process, asking you for the options you need and generating the code for you. Save time and effort when creating your PHP projects with "PHP Skeleton Generator"!
 
 ## Features
 
@@ -8,7 +8,7 @@ Looking for an easy and quick way to generate PHP code skeletons? Check out our 
 
 ## Planned Features
 
-- Generate skeleton of other types of PHP files [interface, trait, enum]
+- Generate skeleton of other types of PHP files [trait, enum]
 - Method equal() in Skeleton Class
 
 ## Requirements
