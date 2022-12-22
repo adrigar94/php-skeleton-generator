@@ -7,7 +7,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [Unreleased]
 
 ### Added 
-
+- New Type of skeleton for interface
 
 ## [0.0.1]
 
