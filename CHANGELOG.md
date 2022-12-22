@@ -4,7 +4,7 @@ All notable changes to the "php-skeleton-generator" extension will be documented
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.1.0]
 
 ### Added 
 - New Type of skeleton for interface

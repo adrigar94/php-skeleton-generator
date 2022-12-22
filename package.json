@@ -1,8 +1,8 @@
 {
   "name": "php-skeleton-generator",
   "displayName": "PHP Skeleton Generator",
-  "description": "With just a few clicks, you can create PHP classes, interfaces, traits, and enums with all the properties and methods you need. (PSR-4 compatible)",
-  "version": "0.0.1",
+  "description": "With just a few steps, you can create PHP classes, interfaces, traits, and enums with all the properties and methods you need. (PSR-4 compatible)",
+  "version": "0.1.0",
   "keywords": [
 		"php",
 		"generate",
