@@ -1,10 +1,25 @@
 {
   "name": "php-skeleton-generator",
-  "displayName": "PHP Class Generator",
-  "description": "Generate PHP classes",
+  "displayName": "PHP Skeleton Generator",
+  "description": "With just a few clicks, you can create PHP classes, interfaces, traits, and enums with all the properties and methods you need. (PSR-4 compatible)",
   "version": "0.0.1",
+  "keywords": [
+		"php",
+		"generate",
+		"class",
+		"interface",
+		"enum",
+		"trait",
+		"wizard",
+		"psr-4"
+	],
+  "publisher": "AdrianGarciaSabate",
   "engines": {
     "vscode": "^1.74.0"
+  },
+  "author": {
+    "name": "Adrián García",
+    "url": "https://github.com/adrigar94"
   },
   "repository": {
     "type": "git",
@@ -13,6 +28,8 @@
   "categories": [
     "Other"
   ],
+  "license": "MIT",
+	"icon": "images/logo.png",
   "activationEvents": [
     "onCommand:php-skeleton-generator.php-skeleton-generate"
   ],
