@@ -102,6 +102,8 @@ async function generatePhpClassSkeleton(className: string, namespace: string): P
 
     let skeleton = `<?php
 
+declare(strict_types=1);
+
 namespace ${namespace};
 
 class ${className}
