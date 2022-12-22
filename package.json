@@ -17,7 +17,7 @@
     "commands": [
       {
         "command": "php-skeleton-generator.php-skeleton-generate",
-        "title": "Generate PHP Class"
+        "title": "PHP skeleton generate"
       }
     ]
   },
