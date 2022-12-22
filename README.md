@@ -4,7 +4,7 @@ Looking for an easy and quick way to generate PHP code skeletons? Check out our 
 
 ## Features
 
-- Run `php-skeleton-generate` command from the command palette to generate a skeleton for a PHP class
+- Run `php-skeleton-generate` command from the command palette to generate a skeleton for a PHP files [class, interface]
 
 ## Planned Features
 
