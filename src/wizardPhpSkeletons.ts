@@ -90,6 +90,7 @@ async function generatePhpClassSkeleton(className: string, namespace: string): P
     }
 
     let gettersAndSetters = "";
+    let equalsCondition = [];
     for (const property of properties) {
         const capitalizedName = capitalize(property.name);
         gettersAndSetters += `
@@ -101,7 +102,16 @@ async function generatePhpClassSkeleton(className: string, namespace: string): P
     {
         $this->${property.name} = $${property.name};
     }`;
+        equalsCondition.push(`$this->get${capitalizedName}() == $toCompare->get${capitalizedName}()`);
     }
+
+
+    const equalsMethod = equalsCondition.length ? `
+    public function equals(self $toCompare): boolean
+    {
+        return ${equalsCondition.join('\n        AND ')};
+    }
+    ` : '';
 
     const skeleton = `<?php
 
@@ -116,6 +126,8 @@ class ${className}
     }
 
 ${gettersAndSetters}
+
+${equalsMethod}
 }`;
 
     return skeleton;
