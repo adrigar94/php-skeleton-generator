@@ -4,6 +4,19 @@ All notable changes to the "php-skeleton-generator" extension will be documented
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+
+## [0.2.1]
+
+### Added 
+- Increase release on package
+
+## [0.2.0]
+
+### Added 
+- Add method equal() in Skeleton Class
+- New Type of skeleton for enum
+- New Type of skeleton for trait
+
 ## [0.1.0]
 
 ### Added 
