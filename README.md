@@ -31,6 +31,7 @@ Looking for an easy and quick way to generate PHP code skeletons? Check out our 
 
 ## Planned Features
 
+- add psr4 support for autoload-dev
 - compatibility with other PHP versions
 
 ## Requirements
