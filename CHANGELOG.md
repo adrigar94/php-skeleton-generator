@@ -5,8 +5,9 @@ All notable changes to the "php-skeleton-generator" extension will be documented
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 
-## [unreleased]
+## [0.2.2]
 - fix return type for equals() method on skeleton for class
+- fix namespace creation at the psr4 root folder
 
 ## [0.2.1]
 
