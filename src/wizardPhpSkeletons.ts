@@ -44,8 +44,7 @@ async function wizardFileType(): Promise<string> {
         "class",
         "interface",
         // "trait",
-        // "enum",
-        // "value object (immutable class)"
+        // "enum"
     ];
     const type = await vscode.window.showQuickPick(
         acceptedTypes,
