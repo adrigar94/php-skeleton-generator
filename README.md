@@ -6,12 +6,9 @@ Looking for an easy and quick way to generate PHP code skeletons? Check out our 
 
 ## Features
 
-- Run `php-skeleton-generate` command from the command palette to generate a skeleton for a PHP files [class, interface]
+- Run `php-skeleton-generate` command from the command palette to generate a skeleton for a PHP files [class, interface, enum and trait]
 
 ## Planned Features
-
-- Generate skeleton of other types of PHP files [trait, enum]
-- Method equal() in Skeleton Class
 
 ## Requirements
 
