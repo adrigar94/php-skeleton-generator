@@ -43,9 +43,8 @@ async function wizardFileType(): Promise<string> {
     const acceptedTypes = [
         "class",
         "interface",
-        // "trait",
-        // "enum",
-        // "value object (immutable class)"
+        "enum",
+        "trait"
     ];
     const type = await vscode.window.showQuickPick(
         acceptedTypes,
@@ -78,7 +77,13 @@ async function generatePhpSkeleton(type: string, fileName: string, namespace: st
     if (type === "interface") {
         return await generatePhpInterfaceSkeleton(fileName, namespace);
     }
-    return "## TODO";
+    if (type === "enum") {
+        return await generatePhpEnumSkeleton(fileName, namespace);
+    }
+    if (type === "trait") {
+        return await generatePhpTraitSkeleton(fileName, namespace);
+    }
+    return "## not avaible";
 }
 
 async function generatePhpClassSkeleton(className: string, namespace: string): Promise<string> {
@@ -90,6 +95,7 @@ async function generatePhpClassSkeleton(className: string, namespace: string): P
     }
 
     let gettersAndSetters = "";
+    let equalsCondition = [];
     for (const property of properties) {
         const capitalizedName = capitalize(property.name);
         gettersAndSetters += `
@@ -101,7 +107,16 @@ async function generatePhpClassSkeleton(className: string, namespace: string): P
     {
         $this->${property.name} = $${property.name};
     }`;
+        equalsCondition.push(`$this->get${capitalizedName}() == $toCompare->get${capitalizedName}()`);
     }
+
+
+    const equalsMethod = equalsCondition.length ? `
+    public function equals(self $toCompare): boolean
+    {
+        return ${equalsCondition.join('\n        AND ')};
+    }
+    ` : '';
 
     const skeleton = `<?php
 
@@ -116,6 +131,8 @@ class ${className}
     }
 
 ${gettersAndSetters}
+
+${equalsMethod}
 }`;
 
     return skeleton;
@@ -226,4 +243,66 @@ async function wizardInterfaceMethods(): Promise<Array<{ name: string, returnTyp
     }
 
     return methods;
+}
+
+async function generatePhpEnumSkeleton(enumName: string, namespace: string): Promise<string> {
+    const cases = await wizardCasesEnum();
+
+    let declareCases: Array<string> = [];
+    for (const caseDeclaration of cases) {
+        declareCases.push(`    case ${caseDeclaration.toUpperCase().replace(' ', '_')};`);
+    }
+
+    return `<?php
+
+declare(strict_types=1);
+
+namespace ${namespace};
+
+enum ${enumName}
+{
+${declareCases.join('\n')}
+}`;
+}
+
+async function wizardCasesEnum(): Promise<Array<string>> {
+    let cases = [];
+    let caseName = await vscode.window.showInputBox({
+        prompt: "Enter a case name (press 'Cancel' or leave empty to finish)"
+    });
+    while (caseName) {
+        cases.push(caseName);
+        caseName = await vscode.window.showInputBox({
+            prompt: "Enter another case name (press 'Cancel' or leave empty to finish)"
+        });
+    }
+    return cases;
+}
+
+async function generatePhpTraitSkeleton(traitName: string, namespace: string): Promise<string> {
+    const methods = await wizardInterfaceMethods();
+
+    let declareMethods = [];
+    for (const method of methods) {
+        let paramsMethod: Array<string> = [];
+        for (const param of method.params) {
+            paramsMethod.push(`${param.type} $${param.name}`);
+        }
+        declareMethods.push(`    public function ${method.name}(${paramsMethod.join(', ')}): ${method.returnType}
+    {
+        ## TODO
+    }`);
+    }
+
+    return `<?php
+
+declare(strict_types=1);
+
+namespace ${namespace};
+
+interface ${traitName}
+{
+${declareMethods.join("\n\n")}
+}
+`;
 }
