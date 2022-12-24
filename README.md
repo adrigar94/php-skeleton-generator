@@ -3,6 +3,7 @@
 <img src="images/logo.png" width="150" style="display: block; margin: 0 auto 10px">
 
 Looking for an easy and quick way to generate PHP code skeletons? Check out our "PHP Skeleton Generator" extension! With just a few steps, you can create PHP classes, interfaces, traits, and enums with all the properties and methods you need. Our assistant guides you through the process, asking you for the options you need and generating the code for you. Save time and effort when creating your PHP projects with "PHP Skeleton Generator"!
+Namespace is generated from PSR-4 autoload in composer file.
 
 ## Features
 
