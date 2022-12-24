@@ -112,7 +112,7 @@ async function generatePhpClassSkeleton(className: string, namespace: string): P
 
 
     const equalsMethod = equalsCondition.length ? `
-    public function equals(self $toCompare): boolean
+    public function equals(self $toCompare): bool
     {
         return ${equalsCondition.join('\n        AND ')};
     }
