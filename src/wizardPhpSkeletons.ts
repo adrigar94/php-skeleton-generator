@@ -8,7 +8,7 @@ export async function wizardGeneratePhpSkeleton() {
     const type = await wizardFileType();
     const fileName = await wizardFileName(type);
 
-    const namespace = generateNamespace(folder, fileName);
+    const namespace = generateNamespace(folder);
 
     const classSkeleton = await generatePhpSkeleton(type, fileName, namespace);
 
@@ -112,7 +112,7 @@ async function generatePhpClassSkeleton(className: string, namespace: string): P
 
 
     const equalsMethod = equalsCondition.length ? `
-    public function equals(self $toCompare): boolean
+    public function equals(self $toCompare): bool
     {
         return ${equalsCondition.join('\n        AND ')};
     }

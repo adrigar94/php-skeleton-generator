@@ -62,13 +62,15 @@ function getPsr4(): { [key: string]: string } {
     return autoload['psr-4'];
 }
 
-export function generateNamespace(folder: vscode.Uri, fileName: string): string {
+export function generateNamespace(folder: vscode.Uri): string {
     let folderPath = folder.fsPath;
     const psr4 = getPsr4();
 
     const rootPath = getRootPath();
     folderPath = folderPath.replace(rootPath??'', '');
     folderPath = folderPath.replace(/\/|\\/g, '\\').replace(/\\/, '');
+
+    
 
     for (const prefix of Object.keys(psr4)) {
         const basePath = psr4[prefix].replace(/\/|\\/g, '\\\\');
@@ -77,10 +79,11 @@ export function generateNamespace(folder: vscode.Uri, fileName: string): string 
         if (prefixRegex.test(folderPath)) {
             const relativePath = folderPath.replace(prefixRegex, '');
             const namespace = prefix + relativePath;
-            vscode.window.showInformationMessage("in1");
             return namespace;
         }
+        else if(basePath === folderPath.concat('\\\\')){
+            return prefix.replace(/\\/, '');
+        }
     }
-    vscode.window.showInformationMessage("out");
     return folderPath;
 }

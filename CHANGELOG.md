@@ -5,6 +5,9 @@ All notable changes to the "php-skeleton-generator" extension will be documented
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 
+## [unreleased]
+- fix return type for equals() method on skeleton for class
+
 ## [0.2.1]
 
 ### Added 
