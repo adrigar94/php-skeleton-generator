@@ -8,7 +8,7 @@ export async function wizardGeneratePhpSkeleton() {
     const type = await wizardFileType();
     const fileName = await wizardFileName(type);
 
-    const namespace = generateNamespace(folder, fileName);
+    const namespace = generateNamespace(folder);
 
     const classSkeleton = await generatePhpSkeleton(type, fileName, namespace);
 
