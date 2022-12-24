@@ -43,8 +43,8 @@ async function wizardFileType(): Promise<string> {
     const acceptedTypes = [
         "class",
         "interface",
+        "enum"
         // "trait",
-        // "enum"
     ];
     const type = await vscode.window.showQuickPick(
         acceptedTypes,
@@ -76,6 +76,9 @@ async function generatePhpSkeleton(type: string, fileName: string, namespace: st
     }
     if (type === "interface") {
         return await generatePhpInterfaceSkeleton(fileName, namespace);
+    }
+    if (type === "enum") {
+        return await generatePhpEnumSkeleton(fileName, namespace);
     }
     return "## TODO";
 }
@@ -237,4 +240,39 @@ async function wizardInterfaceMethods(): Promise<Array<{ name: string, returnTyp
     }
 
     return methods;
+}
+
+async function generatePhpEnumSkeleton(className: string, namespace: string): Promise<string> {
+    const cases = await wizardCasesEnum();
+
+    let declareCases: Array<string> = [];
+    for (const caseDeclaration of cases) {
+        declareCases.push(`    case ${caseDeclaration.toUpperCase().replace(' ','_')};`);
+    }
+
+    return `<?php
+
+declare(strict_types=1);
+
+namespace ${namespace};
+
+enum ${className}
+{
+${declareCases.join('\n')}
+}`;
+}
+
+async function wizardCasesEnum(): Promise<Array<string>>
+{
+    let cases = [];
+    let caseName = await vscode.window.showInputBox({
+        prompt: "Enter a case name (press 'Cancel' or leave empty to finish)"
+    });
+    while (caseName) {
+        cases.push(caseName);
+        caseName = await vscode.window.showInputBox({
+            prompt: "Enter another case name (press 'Cancel' or leave empty to finish)"
+        });
+    }
+    return cases;
 }
