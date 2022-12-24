@@ -43,8 +43,8 @@ async function wizardFileType(): Promise<string> {
     const acceptedTypes = [
         "class",
         "interface",
-        "enum"
-        // "trait",
+        "enum",
+        "trait"
     ];
     const type = await vscode.window.showQuickPick(
         acceptedTypes,
@@ -80,7 +80,10 @@ async function generatePhpSkeleton(type: string, fileName: string, namespace: st
     if (type === "enum") {
         return await generatePhpEnumSkeleton(fileName, namespace);
     }
-    return "## TODO";
+    if (type === "trait") {
+        return await generatePhpTraitSkeleton(fileName, namespace);
+    }
+    return "## not avaible";
 }
 
 async function generatePhpClassSkeleton(className: string, namespace: string): Promise<string> {
@@ -242,12 +245,12 @@ async function wizardInterfaceMethods(): Promise<Array<{ name: string, returnTyp
     return methods;
 }
 
-async function generatePhpEnumSkeleton(className: string, namespace: string): Promise<string> {
+async function generatePhpEnumSkeleton(enumName: string, namespace: string): Promise<string> {
     const cases = await wizardCasesEnum();
 
     let declareCases: Array<string> = [];
     for (const caseDeclaration of cases) {
-        declareCases.push(`    case ${caseDeclaration.toUpperCase().replace(' ','_')};`);
+        declareCases.push(`    case ${caseDeclaration.toUpperCase().replace(' ', '_')};`);
     }
 
     return `<?php
@@ -256,14 +259,13 @@ declare(strict_types=1);
 
 namespace ${namespace};
 
-enum ${className}
+enum ${enumName}
 {
 ${declareCases.join('\n')}
 }`;
 }
 
-async function wizardCasesEnum(): Promise<Array<string>>
-{
+async function wizardCasesEnum(): Promise<Array<string>> {
     let cases = [];
     let caseName = await vscode.window.showInputBox({
         prompt: "Enter a case name (press 'Cancel' or leave empty to finish)"
@@ -275,4 +277,32 @@ async function wizardCasesEnum(): Promise<Array<string>>
         });
     }
     return cases;
+}
+
+async function generatePhpTraitSkeleton(traitName: string, namespace: string): Promise<string> {
+    const methods = await wizardInterfaceMethods();
+
+    let declareMethods = [];
+    for (const method of methods) {
+        let paramsMethod: Array<string> = [];
+        for (const param of method.params) {
+            paramsMethod.push(`${param.type} $${param.name}`);
+        }
+        declareMethods.push(`    public function ${method.name}(${paramsMethod.join(', ')}): ${method.returnType}
+    {
+        ## TODO
+    }`);
+    }
+
+    return `<?php
+
+declare(strict_types=1);
+
+namespace ${namespace};
+
+interface ${traitName}
+{
+${declareMethods.join("\n\n")}
+}
+`;
 }
