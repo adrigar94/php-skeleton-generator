@@ -300,7 +300,7 @@ declare(strict_types=1);
 
 namespace ${namespace};
 
-interface ${traitName}
+trait ${traitName}
 {
 ${declareMethods.join("\n\n")}
 }

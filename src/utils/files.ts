@@ -82,7 +82,7 @@ export function generateNamespace(folder: vscode.Uri): string {
             return namespace;
         }
         else if(basePath === folderPath.concat('\\\\')){
-            return prefix.replace(/\\/, '');
+            return prefix.replace(/\\$/, '');
         }
     }
     return folderPath;
