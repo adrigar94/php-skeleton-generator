@@ -4,6 +4,9 @@ All notable changes to the "php-skeleton-generator" extension will be documented
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.2.4]
+- add gifs in readme.md
+
 ## [0.2.3]
 - fix namespace creation at the psr4 root folder with multiple slashes
 - fix skeleton of trait, type of files is interface and must be a trait
