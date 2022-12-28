@@ -23,12 +23,16 @@ Namespace is generated from PSR-4 autoload in composer file.
 5. The skeleton for the PHP class will be generated
 
 ### New Class
+![Class](./images/class.gif)
 
 ### New Interface
+![Interface](./images/interface.gif)
 
 ### New Enum
+![Enum](./images/enum.gif)
 
 ### New Trait
+![Trait](./images/trait.gif)
 
 ## Planned Features
 
